@@ -1,0 +1,64 @@
+{;; ---------------------------------------------------------
+ :paths
+ ["src" "resources"]
+ ;; ---------------------------------------------------------
+
+ ;; ---------------------------------------------------------
+ :deps
+ {;; Service
+  http-kit/http-kit  {:mvn/version "2.6.0"}  ; latest "2.7.0-alpha1"
+  metosin/reitit     {:mvn/version "0.5.13"}
+  metosin/reitit-dev {:mvn/version "0.5.18"} ; human readable exceptions
+
+  ;; Logging
+  ;; create events and send to publisher
+  com.brunobonacci/mulog             {:mvn/version "0.9.0"}
+  ;; JSON Console out support
+  com.brunobonacci/mulog-adv-console {:mvn/version "0.9.0"}
+  ;; Optional: suppress slf4j warning
+  ;; org.slf4j/slf4j-nop {:mvn/version "1.7.32"}
+
+  ;; System
+  aero/aero           {:mvn/version "1.1.6"}
+  party.donut/system  {:mvn/version "0.0.241"}
+  org.clojure/clojure {:mvn/version "1.11.2"}}
+ ;; ---------------------------------------------------------
+
+ ;; ---------------------------------------------------------
+ :aliases
+ {;; ------------
+  ;; Clojure.main execution of application
+  :run/service
+  {:main-opts ["-m" "practicalli.gameboard.service"]}
+
+  ;; Clojure.exec execution of specified function
+  :run/greet
+  {:exec-fn   practicalli.gameboard.service/greet
+   :exec-args {:name "Clojure"}}
+  ;; ------------
+
+  ;; ------------
+  ;; Add libraries and paths to support additional test tools
+  :test/env
+  {}
+
+  ;; Test runner - local and CI
+  ;; call with :watch? true to start file watcher and re-run tests on saved changes
+  :test/run
+  {:extra-paths ["test"]
+   :extra-deps  {lambdaisland/kaocha {:mvn/version "1.87.1366"}}
+   :main-opts   ["-m" "kaocha.runner"]
+   :exec-fn     kaocha.runner/exec-fn
+   :exec-args   {:randomize? false
+                 :fail-fast? true}}
+  ;; ------------
+
+  ;; ------------
+  ;; tools.build `build.clj` built script
+  :build/task
+  {:replace-paths ["."]
+   :replace-deps  {io.github.clojure/tools.build
+                   {:git/tag "v0.10.0" :git/sha "3a2c484"}}
+   :ns-default    build}}}
+  ;; ------------
+ ;; ---------------------------------------------------------
