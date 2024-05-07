@@ -27,6 +27,48 @@
  ;; ---------------------------------------------------------
  :aliases
  {;; ------------
+  ;; Practicalli REPL Reloaded workflow
+  ;; Rich Terminal REPL Prompt with nREPL and Portal connections
+  ;; https://practical.li/clojure/clojure-cli/repl-reloaded/
+  ;; clojure -M:repl/reloaded
+  :repl/reloaded
+  {:extra-paths ["dev" "test"]
+   :extra-deps {nrepl/nrepl                  {:mvn/version "1.1.0"}
+                cider/cider-nrepl            {:mvn/version "0.45.0"}
+                com.bhauman/rebel-readline   {:mvn/version "0.1.4"}
+                djblue/portal                {:mvn/version "0.51.1"}   ; portal data inspector
+                clj-commons/clj-yaml         {:mvn/version "1.0.27"}   ; portal yaml support (optional)
+                org.clojure/tools.namespace  {:mvn/version "1.4.5"}
+                org.clojure/tools.trace      {:mvn/version "0.7.11"}
+                org.slf4j/slf4j-nop          {:mvn/version "2.0.12"}
+                com.brunobonacci/mulog       {:mvn/version "0.9.0"}
+                lambdaisland/kaocha          {:mvn/version "1.87.1366"}
+                org.clojure/test.check       {:mvn/version "1.1.1"}
+                ring/ring-mock               {:mvn/version "0.4.0"}
+                criterium/criterium          {:mvn/version "0.4.6"}}
+   :main-opts  ["--eval" "(apply require clojure.main/repl-requires)"
+                "--main" "nrepl.cmdline"
+                "--middleware" "[cider.nrepl/cider-middleware,portal.nrepl/wrap-portal]"
+                "--interactive"
+                "-f" "rebel-readline.main/-main"]}
+
+  ;; Practicalli REPL Reloaded workflow
+  ;; https://practical.li/clojure/clojure-cli/repl-reloaded/
+  ;; Use with editor command to start a REPL (Jack-in) to include REPL Reloaded tools
+  :dev/reloaded
+  {:extra-paths ["dev" "test"]
+   :extra-deps  {djblue/portal                {:mvn/version "0.51.1"}   ; portal data inspector
+                 clj-commons/clj-yaml         {:mvn/version "1.0.27"}   ; portal yaml support (optional)
+                 org.clojure/tools.namespace  {:mvn/version "1.4.5"}
+                 org.clojure/tools.trace      {:mvn/version "0.7.11"}
+                 org.slf4j/slf4j-nop          {:mvn/version "2.0.12"}
+                 com.brunobonacci/mulog       {:mvn/version "0.9.0"}
+                 lambdaisland/kaocha          {:mvn/version "1.87.1366"}
+                 org.clojure/test.check       {:mvn/version "1.1.1"}
+                 criterium/criterium          {:mvn/version "0.4.6"}}}
+  ;; ------------
+
+  ;; ------------
   ;; Clojure.main execution of application
   :run/service
   {:main-opts ["-m" "practicalli.gameboard.service"]}
